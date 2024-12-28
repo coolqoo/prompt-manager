@@ -50,26 +50,27 @@
 4. 进入项目设置，点击`Database`，点击`Create new database`，创建数据库
 5. 创建数据表
 ```
--- 创建 prompts 表
-CREATE TABLE prompts (
-    id UUID PRIMARY KEY,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    description TEXT,
-    created_at TIMESTAMPTZ NOT NULL,
-    updated_at TIMESTAMPTZ NOT NULL,
-    is_public BOOLEAN,
-    user_id TEXT,
-    version TEXT,
-    tags TEXT,
-    cover_img TEXT
-);
+  CREATE TABLE prompts (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    title text NOT NULL,
+    "content" text NOT NULL,
+    description text NULL,
+    created_at timestamptz DEFAULT now() NOT NULL,
+    updated_at timestamptz DEFAULT now() NOT NULL,
+    is_public bool NULL,
+    user_id text NULL,
+    "version" text NULL,
+    tags text NULL,
+    cover_img text NULL,
+    CONSTRAINT prompts_pkey PRIMARY KEY (id)
+  );
 
--- 创建 tags 表
-CREATE TABLE tags (
-    id UUID PRIMARY KEY,
-    name TEXT NOT NULL
-);
+  CREATE TABLE tags (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    "name" text NOT NULL,
+    CONSTRAINT tags_name_key UNIQUE (name),
+    CONSTRAINT tags_pkey PRIMARY KEY (id)
+  );
 ```
 6. 创建bucket，用于存储封面图片
 进入项目设置，点击`Storage`，点击`Create bucket`，创建bucket
